@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 
-class Auth
+class AuthService
 {
-    static let shared = Auth()
+    static let shared = AuthService()
     
     private init() {}
     

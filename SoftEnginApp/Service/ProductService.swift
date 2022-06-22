@@ -7,9 +7,9 @@
 
 import Foundation
 
-class FetchProduct
+class ProductService
 {
-    static let shared = FetchProduct()
+    static let shared = ProductService()
     
     private init() {}
     

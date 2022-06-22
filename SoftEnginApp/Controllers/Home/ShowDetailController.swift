@@ -28,13 +28,13 @@ class ShowDetailController: UIViewController {
     {
         if quantityTextNumber > 0
         {
-            let addcart = Cart.coppied
+            let addcart = CartService.coppied
             
             
-            CoreData.shared.getAuthObject(completionBlock: { auth in
+            CoreData.shared.getAuthObject(completionBlock: { [self] auth in
                 
-                let cartProduct = CartProduct(userId: auth!.id , productId: Int64(self.product.productId!), quantitiy: Int64(self.product.amount!))
-                addcart.addToCart(product: cartProduct) { [self] addedProduct, data, response in
+                let cartProduct = CartProduct(userId: auth!.id , productId: Int64(self.product.productId!), quantity: Int64(quantityTextNumber),price:Double(self.product.price!),productName: self.product.productName!)
+                addcart.addToCart(product: cartProduct) { [self] cartProduct, data, response in
                     if response.getStatusCode() == 200
                     {
                         CoreData.shared.addToBasket(product: self.product, quantityNew: quantityTextNumber)

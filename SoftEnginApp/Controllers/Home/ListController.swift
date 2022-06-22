@@ -22,7 +22,7 @@ class ListController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        FetchProduct.shared.getProduct { products in
+        ProductService.shared.getProduct { products in
             self.products = products
             self.filteredProducts = products.filter({ product in
                 return product.category == "Cep Telefonu"
@@ -110,23 +110,27 @@ class ListCell: UITableViewCell {
     
     @IBAction func addButtonAction(_ sender: Any)
     {
-        let addcart = Cart.coppied
+        let addcart = CartService.coppied
         
-        /*
-        let cartProduct = CartProduct(userId: auth.id, productId: <#T##Int#>, quantitiy: <#T##Int#>)
         
-        addcart.addToCart(product: product) { [self] addedProduct, data, response in
-            if response.getStatusCode() == 200
-            {
-                CoreData.shared.addToBasket(product: self.product, quantityNew: 1)
-                print("*********************OLDU**********************OLDU**********************")
+        CoreData.shared.getAuthObject(completionBlock: { [self] auth in
+            
+            let cartProduct = CartProduct(userId: auth!.id , productId: Int64(self.product.productId!), quantity:1,price:Double(self.product.price!),productName: self.product.productName!)
+            addcart.addToCart(product: cartProduct) { [self] cartProduct, data, response in
+                if response.getStatusCode() == 200
+                {
+                    CoreData.shared.addToBasket(product: self.product, quantityNew: 1)
+                    print("*********************OLDU**********************OLDU**********************")
+                }
+                else{
+                    print("Error")
+                }
             }
-            else{
-                print("Error")
-            }
-        }
-        */
-       // CoreData.shared.addToBasket(product: product, quantityNew: 1)
+            //CoreData.shared.addToBasket(product: product, quantityNew: quantityTextNumber)
+            //self.navigationController?.popViewController(animated: true)
+        })
+        
+  
         Alert.makeAlert(titleInput: "", messageInput: "Ürün sepetinize eklendi.", viewController: yourController!)
     }
 }
